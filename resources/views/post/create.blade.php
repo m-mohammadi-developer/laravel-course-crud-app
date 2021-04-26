@@ -20,6 +20,9 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
+
+                @include('layouts.partials.error')
+
                 <div class="form-group">
                     <strong>عنوان:</strong>
                     <input type="text" name="title" class="form-control" placeholder="">
@@ -37,11 +40,11 @@
 
                 </div>
 
-                <div class="form-group">
+                {{--  <div class="form-group">
                     <strong>عکس:</strong>
                     <input type="file" name="image" class="form-control mb-3" placeholder="">
                     
-                </div>
+                </div>  --}}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">ثبت</button>

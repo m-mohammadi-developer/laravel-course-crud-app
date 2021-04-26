@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Rules\Uppercase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -14,12 +16,6 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->path());
-        // dd($request->is('post/*'));
-        // dd($request->url());
-        // dd($request->fullUrl());
-        // dd($request->method());
-        // dd($request->isMethod('get'));
 
         $posts = Post::orderBy('id', 'desc')->get();
         return view('post.index', compact('posts'));
@@ -43,27 +39,44 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input());
-        // dd($request->only('title'));
-        // dd($request->except('title'));
-        // dd($request->has('name'));
-        // dd($request->filled('title'));
 
-        // dd($request->input());
-        // dd($request->input('employees.0.first_name'));
+        // Validator::make($request->all(), [
+        //     'title' => 'required|min:5',
+        //     'user_id' => 'required'
+        // ], [
+        //     'title.required' => 'عنوان پست اجباری است',
+        //     'user_id.required' => 'یوزر باید وارد شود'
+        // ])->validate();
 
-        // dd($request->all());
-        // dd($request->file('image'));
-        // dd($request->file());
-        // dd($request->hasFile('image'));
-        // dd($request->file('image')->isValid());
-        // dd($request->file('image')->getMimeType());
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator);
+        // }
 
-        $fileName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('uploads'), $fileName);
+        /*** ***/
+        // $request->validate([
+        //     'title' => 'required:min:5',
+        //     'user_id' => 'required'
+        // ]);
 
+        // $request->validate([
+        //     'title' => ['required', 'min:5', new Uppercase],
+        //     'user_id' => 'required'
+        // ]);
+
+
+        // $request->validate([
+        //     'title' => ['required', 'min:5', new Uppercase],
+        //     'book.id' => 'required',
+        //     'book.name' => 'required',
+        // ]);
+
+
+        
+     
 
         Post::create($request->all());
+
+
         return redirect()->route('post.index')->with('success', 'Post Created SuccessFully');
     }
 
