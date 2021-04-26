@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         // dd($request->path());
-        // dd($request->is('post'));
+        // dd($request->is('post/*'));
         // dd($request->url());
         // dd($request->fullUrl());
         // dd($request->method());
@@ -43,16 +43,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // dd($request->input('title'));
-        // dd($request->input('name', 'mohammad'));
-        // dd($request->title);
-        // dd($request->only(['user_id']));
-        // dd($request->except(['_token']));
-        // dd($request->has(['name']));
-        // dd($request->filled(['title']));
+        // dd($request->input());
+        // dd($request->only('title'));
+        // dd($request->except('title'));
+        // dd($request->has('name'));
+        // dd($request->filled('title'));
 
-        // dd($request->input('employees.0.firstName'));
+        // dd($request->input());
+        // dd($request->input('employees.0.first_name'));
+
+        // dd($request->all());
+        // dd($request->file('image'));
+        // dd($request->file());
+        // dd($request->hasFile('image'));
+        // dd($request->file('image')->isValid());
+        // dd($request->file('image')->getMimeType());
+
+        $fileName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('uploads'), $fileName);
+
 
         Post::create($request->all());
         return redirect()->route('post.index')->with('success', 'Post Created SuccessFully');
