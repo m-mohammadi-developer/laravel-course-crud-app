@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePost;
 use App\Post;
-use App\Rules\Uppercase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -37,44 +36,13 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
 
-        // Validator::make($request->all(), [
-        //     'title' => 'required|min:5',
-        //     'user_id' => 'required'
-        // ], [
-        //     'title.required' => 'عنوان پست اجباری است',
-        //     'user_id.required' => 'یوزر باید وارد شود'
-        // ])->validate();
-
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator);
-        // }
-
-        /*** ***/
-        // $request->validate([
-        //     'title' => 'required:min:5',
-        //     'user_id' => 'required'
-        // ]);
-
-        // $request->validate([
-        //     'title' => ['required', 'min:5', new Uppercase],
-        //     'user_id' => 'required'
-        // ]);
+        // $validated = $request->validated();
 
 
-        // $request->validate([
-        //     'title' => ['required', 'min:5', new Uppercase],
-        //     'book.id' => 'required',
-        //     'book.name' => 'required',
-        // ]);
-
-
-        
-     
-
-        Post::create($request->all());
+        Post::create($request->validated());
 
 
         return redirect()->route('post.index')->with('success', 'Post Created SuccessFully');
