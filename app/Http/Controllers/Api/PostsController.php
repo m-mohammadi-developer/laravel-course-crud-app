@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Post as PostResource;
 use App\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostCollection;
 
 class PostsController extends Controller
 {
@@ -20,10 +22,14 @@ class PostsController extends Controller
         // $posts = Post::paginate(2);
         // return $posts;
 
-        $sortColumn = $request->input('sort', 'id');
-        $sortDirection = Str::startsWith($sortColumn, '-') ? 'desc' : 'asc';
-        $sortColumn = ltrim($sortColumn, '-');
-        return Post::orderBy($sortColumn, $sortDirection)->paginate(2);
+        // $sortColumn = $request->input('sort', 'id');
+        // $sortDirection = Str::startsWith($sortColumn, '-') ? 'desc' : 'asc';
+        // $sortColumn = ltrim($sortColumn, '-');
+        // return Post::orderBy($sortColumn, $sortDirection)->paginate(2);
+
+        // return new PostResource(Post::find(1));
+        return new PostCollection(Post::with('comments')->get());
+        // return Post::find(1);
         
     }
 
@@ -49,7 +55,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return Post::findOrFail($id);
+        return Post::findOrFail($id)->comments;
+        // return new PostResource(Post::find($id));
+
     }
 
     /**
@@ -74,5 +82,11 @@ class PostsController extends Controller
     public function destroy($id)
     {
         Post::findOrFail($id)->delete();
+        // return response('Success', 200)->header('Content-Type', 'text/plain');
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
     }
 }
