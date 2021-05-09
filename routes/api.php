@@ -15,47 +15,47 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::fallback(function () {
-    return response()->json([
-        'message' => 'route not found'
-    ], 404);
-});
+// Route::fallback(function () {
+//     return response()->json([
+//         'message' => 'route not found'
+//     ], 404);
+// });
 
-Route::post('login', function (Request $request) {
+// Route::post('login', function (Request $request) {
 
-    if (auth()->attempt([
-        'email' => $request->email,
-        'password' => $request->password,
-    ])) {
-        $user = auth()->user();
-        $user->api_token = Str::random(60);
-        $user->save();
-        return $user;
-    } else {
-        return response()->json([
-            'message' => 'unauthorized user'
-        ], 401);
-    }
-});
+//     if (auth()->attempt([
+//         'email' => $request->email,
+//         'password' => $request->password,
+//     ])) {
+//         $user = auth()->user();
+//         $user->api_token = Str::random(60);
+//         $user->save();
+//         return $user;
+//     } else {
+//         return response()->json([
+//             'message' => 'unauthorized user'
+//         ], 401);
+//     }
+// });
 
-Route::middleware('auth:api')->post('logout', function () {
+// Route::middleware('auth:api')->post('logout', function () {
     
-    if (auth()->user()) {
+//     if (auth()->user()) {
 
-        $user = auth()->user();
-        $user->api_token = null;
-        $user->save();
+//         $user = auth()->user();
+//         $user->api_token = null;
+//         $user->save();
 
-        return response()->json([
-            'message' => 'logout was successful'
-        ], 200);
-    } else {
-        return response()->json([
-            'message' => 'unauthorized user'
-        ], 401);
-    }
+//         return response()->json([
+//             'message' => 'logout was successful'
+//         ], 200);
+//     } else {
+//         return response()->json([
+//             'message' => 'unauthorized user'
+//         ], 401);
+//     }
 
-});
+// });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -67,3 +67,12 @@ Route::namespace('Api')->group(function () {
     Route::apiResource('posts', 'PostsController');
 
 });
+
+// Route::prefix('user')->group(function () {
+
+
+//     Route::post('/login', 'Api\Auth\LoginController@login');
+//     Route::get('/all', 'Api\UserController@all')->middleware('auth:api');
+
+
+// });
